@@ -4,7 +4,7 @@ const rootReducer = (state, action) => {
       if (state.balance < action.amount) return state;
 
       const withdrawBalance = state.balance - action.amount;
-      return { ...state, balance: withdrawBalance, awd: "wad" };
+      return { ...state, balance: withdrawBalance };
     case "deposit":
       const depositBalance = state.balance + action.amount;
       return { ...state, balance: depositBalance };
