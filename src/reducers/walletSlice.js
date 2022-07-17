@@ -1,6 +1,13 @@
 const { createSlice } = require("@reduxjs/toolkit");
 
-const initialState = { user: "Ari", balance: 200000 };
+const initialState = {
+  user: "Ari",
+  balance: 500000,
+  transactions: [
+    { type: "withdraw", amount: 100000 },
+    { type: "deposit", amount: 300000 },
+  ],
+};
 
 const walletSlice = createSlice({
   name: "wallet",
@@ -10,6 +17,10 @@ const walletSlice = createSlice({
       if (isNaN(action.payload.amount) || action.payload.amount < 0) return;
 
       state.balance += action.payload.amount;
+      state.transactions.push({
+        type: "deposit",
+        amount: action.payload.amount,
+      });
     },
     withdraw: (state, action) => {
       if (
@@ -20,6 +31,10 @@ const walletSlice = createSlice({
         return;
 
       state.balance -= action.payload.amount;
+      state.transactions.push({
+        type: "withdraw",
+        amount: action.payload.amount,
+      });
     },
   },
 });
@@ -29,7 +44,9 @@ const walletSlice = createSlice({
 export const { deposit, withdraw } = walletSlice.actions;
 
 // create slector to get state
-export const selectUser = (state) => state.wallet.user;
-export const selectBalance = (state) => state.wallet.balance;
+const selectUser = (state) => state.wallet.user;
+const selectBalance = (state) => state.wallet.balance;
+const selectTransactions = (state) => state.wallet.transactions;
+export { selectUser, selectBalance, selectTransactions };
 
 export default walletSlice.reducer;

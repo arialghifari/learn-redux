@@ -27,3 +27,11 @@ code {
 .content-center {
   justify-content: center;
 }
+
+.withdraw {
+  color: red;
+}
+
+.deposit {
+  color: blue;
+}

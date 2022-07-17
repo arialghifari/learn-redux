@@ -5,12 +5,15 @@ import {
   selectUser,
   deposit,
   withdraw,
+  selectTransactions,
 } from "../reducers/walletSlice";
 
 const Wallet = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const balance = useSelector(selectBalance);
+  const transactions = useSelector(selectTransactions);
+
   const [inputAmount, setInputAmount] = useState();
 
   return (
@@ -25,7 +28,9 @@ const Wallet = () => {
           Withdraw Rp 100.000
         </button>
       </section>
+
       <br />
+
       <section className="d-flex gap-1 content-center">
         <input
           type="number"
@@ -37,6 +42,17 @@ const Wallet = () => {
         <button onClick={() => dispatch(withdraw({ amount: inputAmount }))}>
           Withdraw
         </button>
+      </section>
+
+      <br />
+
+      <section>
+        {transactions.map(({ type, amount }) => (
+          <p className={type}>
+            {type === "deposit" ? "+" : "-"} {type}: Rp{" "}
+            {amount.toLocaleString("ID")}
+          </p>
+        ))}
       </section>
     </div>
   );
