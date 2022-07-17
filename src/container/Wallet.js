@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectBalance,
@@ -6,6 +6,7 @@ import {
   deposit,
   withdraw,
   selectTransactions,
+  userAsync,
 } from "../reducers/walletSlice";
 
 const Wallet = () => {
@@ -16,9 +17,15 @@ const Wallet = () => {
 
   const [inputAmount, setInputAmount] = useState();
 
+  useEffect(() => {
+    dispatch(userAsync(3));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div>
-      <h1>{user ?? "My"} Wallet</h1>
+      <img style={{ marginTop: "20px" }} src={user.avatar} alt="" />
+      <h1>{user.first_name ?? "My"} Wallet</h1>
       <h2>Balance: Rp {balance?.toLocaleString("ID") ?? "0"}</h2>
       <section className="d-flex gap-2 content-center">
         <button onClick={() => dispatch(deposit({ amount: 100000 }))}>
