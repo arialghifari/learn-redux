@@ -15,10 +15,11 @@ const Wallet = () => {
   const balance = useSelector(selectBalance);
   const transactions = useSelector(selectTransactions);
 
-  const [inputAmount, setInputAmount] = useState();
+  const [currentAmount, setCurrentAmount] = useState(0);
+  const [currentId, setCurrentId] = useState(0);
 
   useEffect(() => {
-    dispatch(userAsync(3));
+    dispatch(userAsync(6));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -26,6 +27,17 @@ const Wallet = () => {
     <div>
       <img style={{ marginTop: "20px" }} src={user.avatar} alt="" />
       <h1>{user.first_name ?? "My"} Wallet</h1>
+
+      <section className="get-user">
+        <input
+          type="number"
+          placeholder="1 to 12"
+          onChange={(e) => setCurrentId(e.target.value)}
+        />
+        &nbsp;
+        <button onClick={() => dispatch(userAsync(currentId))}>Get User</button>
+      </section>
+
       <h2>Balance: Rp {balance?.toLocaleString("ID") ?? "0"}</h2>
       <section className="d-flex gap-2 content-center">
         <button onClick={() => dispatch(deposit({ amount: 100000 }))}>
@@ -41,12 +53,12 @@ const Wallet = () => {
       <section className="d-flex gap-1 content-center">
         <input
           type="number"
-          onChange={(e) => setInputAmount(parseInt(e.target.value))}
+          onChange={(e) => setCurrentAmount(parseInt(e.target.value))}
         />
-        <button onClick={() => dispatch(deposit({ amount: inputAmount }))}>
+        <button onClick={() => dispatch(deposit({ amount: currentAmount }))}>
           Deposit
         </button>
-        <button onClick={() => dispatch(withdraw({ amount: inputAmount }))}>
+        <button onClick={() => dispatch(withdraw({ amount: currentAmount }))}>
           Withdraw
         </button>
       </section>
