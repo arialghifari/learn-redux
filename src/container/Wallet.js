@@ -66,8 +66,8 @@ const Wallet = () => {
       <br />
 
       <section>
-        {transactions.map(({ type, amount }) => (
-          <p className={type}>
+        {transactions.map(({ type, amount }, index) => (
+          <p key={index} className={type}>
             {type === "deposit" ? "+" : "-"} {type}: Rp{" "}
             {amount.toLocaleString("ID")}
           </p>

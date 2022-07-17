@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import walletSlice from "../reducers/walletSlice";
-import { colorApi } from "../services/colorsApi";
+import { colorsApi } from "../services/colorsApi";
 
 const store = configureStore({
   reducer: {
     wallet: walletSlice,
-    [colorApi.reducerPath]: colorApi.reducer,
+    [colorsApi.reducerPath]: colorsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(colorApi.middleware),
+    getDefaultMiddleware().concat(colorsApi.middleware),
 });
 
 export default store;
