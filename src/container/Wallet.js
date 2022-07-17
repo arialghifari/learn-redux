@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectUser, selectBalance } from "../rootReducer";
+import {
+  selectBalance,
+  selectUser,
+  deposit,
+  withdraw,
+} from "../reducers/walletSlice";
 
 const Wallet = () => {
   const dispatch = useDispatch();
@@ -8,21 +13,15 @@ const Wallet = () => {
   const balance = useSelector(selectBalance);
   const [inputAmount, setInputAmount] = useState();
 
-  const handleClick = (type, amount) => {
-    if (isNaN(amount) || amount < 0) return;
-
-    dispatch({ type: type, amount: amount });
-  };
-
   return (
     <div>
       <h1>{user ?? "My"} Wallet</h1>
       <h2>Balance: Rp {balance?.toLocaleString("ID") ?? "0"}</h2>
       <section className="d-flex gap-2 content-center">
-        <button onClick={() => handleClick("deposit", 100000)}>
+        <button onClick={() => dispatch(deposit({ amount: 100000 }))}>
           Deposit Rp 100.000
         </button>
-        <button onClick={() => handleClick("withdraw", 100000)}>
+        <button onClick={() => dispatch(withdraw({ amount: 100000 }))}>
           Withdraw Rp 100.000
         </button>
       </section>
@@ -32,10 +31,10 @@ const Wallet = () => {
           type="number"
           onChange={(e) => setInputAmount(parseInt(e.target.value))}
         />
-        <button onClick={() => handleClick("deposit", inputAmount)}>
+        <button onClick={() => dispatch(deposit({ amount: inputAmount }))}>
           Deposit
         </button>
-        <button onClick={() => handleClick("withdraw", inputAmount)}>
+        <button onClick={() => dispatch(withdraw({ amount: inputAmount }))}>
           Withdraw
         </button>
       </section>
